@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
+    <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/> 
     <title>PrayerWeb by: CatholicG - Community Prayer Wall & Prayers to Pray</title>
     
@@ -9,382 +9,384 @@
     <meta name="keywords" content="Catholic prayer wall, Catholic web, prayer requests, Catholic resources, CatholicG, Prayer web" />
     <meta name="author" content="CatholicG" />
 
-<style>
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-}
+    <style>
+    * {
+        margin:0;
+        padding:0;
+        box-sizing:border-box;
+    }
 
-body{
-    background:#6b6c6b; /* <-- #344f00 ???*/
-    color:#4a1508;
-    font-family:'Orbitron',sans-serif;
-    overflow-x:hidden;
-}
+    body {
+        background:#6b6c6b;
+        color:#4a1508;
+        font-family:'Orbitron',sans-serif;
+        overflow-x:hidden;
+    }
 
-header{
-    width:100%;
-    padding:20px;
-    background:#3a4356;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    position:sticky;
-    top:0;
-    z-index:100;
-    box-shadow:0 0 20px rgba(0,229,255,.5);
-}
+    header {
+        width:100%;
+        padding:20px;
+        background:#3a4356;
+        display:flex;
+        justify-content:space-between;
+        align-items:center;
+        position:sticky;
+        top:0;
+        z-index:100;
+        box-shadow:0 0 20px rgba(0,229,255,.5);
+    }
 
-header h1{
-    font-size:2rem;
-    color: white;
-}
+    header h1 {
+        font-size:2rem;
+        color: white;
+    }
 
-.search-box{
-    width:300px;
-    max-width:50%;
-}
+    .search-box {
+        width:300px;
+        max-width:30%;
+    }
 
-.search-box input{
-    width:100%;
-    padding:12px;
-    border:none;
-    border-radius:12px;
-    outline:none;
-    background:#111827;
-    color:white;
-    font-size:1rem;
-}
+    .search-box input {
+        width:100%;
+        padding:12px;
+        border:none;
+        border-radius:12px;
+        outline:none;
+        background:#111827;
+        color:white;
+        font-size:1rem;
+    }
 
-.hero{
-    height:400px;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    text-align:center;
-    background:url('images/pic.png'); /* <-- Added back here */
-    background-size:cover;
-    background-position:center;
-}
+    .hero {
+        height:400px;
+        display:flex;
+        justify-content:center;
+        align-items:center;
+        text-align:center;
+        background:url('images/pic.png');
+        background-size:cover;
+        background-position:center;
+    }
 
+    .hero-content h2 {
+        font-size:4rem;
+        margin-bottom:20px;
+        text-shadow:0 0 20px cyan;
+        color: white;
+    }
 
+    .hero-content h4 {
+        font-size:2rem;
+        margin-bottom:20px;
+        text-shadow:0 0 20px cyan;
+        color: white;
+    }
 
-    
-.hero-content h2{
-    font-size:4rem;
-    margin-bottom:20px;
-    text-shadow:0 0 20px cyan;
-    color: white;
-}
+    .hero-content p {
+        font-size:1.2rem;
+        margin-bottom:30px;
+        color: #e2e8f0;
+    }
 
-    .hero-content h4{
-    font-size:2rem;
-    margin-bottom:20px;
-    text-shadow:0 0 20px cyan;
-    color: white;
-}
+    .hero-content button {
+        padding:15px 30px;
+        font-size:1rem;
+        border:none;
+        border-radius:15px;
+        background:white;
+        color:black;
+        cursor:pointer;
+        font-weight:bold;
+        transition:.3s;
+        margin: 5px;
+    }
 
-.hero-content p{
-    font-size:1.2rem;
-    margin-bottom:30px;
-    color: #e2e8f0;
-}
+    .hero-content button:hover {
+        transform:scale(1.1);
+    }
 
-.hero-content button{
-    padding:15px 30px;
-    font-size:1rem;
-    border:none;
-    border-radius:15px;
-    background:white;
-    color:black;
-    cursor:pointer;
-    font-weight:bold;
-    transition:.3s;
-    margin: 5px;
-}
+    .outline-btn {
+        background: transparent !important;
+        color: white !important;
+        border: 2px solid #00e5ff !important;
+    }
 
-.hero-content button:hover{
-    transform:scale(1.1);
-}
+    .section-title {
+        font-size:2rem;
+        padding:30px 40px 10px;
+        color: white;
+    }
 
-.outline-btn {
-    background: transparent !important;
-    color: white !important;
-    border: 2px solid #00e5ff !important;
-}
+    .games-grid {
+        display:grid;
+        grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+        gap:25px;
+        padding:30px 40px 60px;
+    }
 
-.section-title{
-    font-size:2rem;
-    padding:30px 40px 10px;
-    color: white;
-}
+    .game-card {
+        background:#111827;
+        border-radius:25px;
+        overflow:hidden;
+        transition:.3s;
+        cursor:pointer;
+        box-shadow:0 0 20px rgba(0,0,0,.5);
+        position:relative;
+        border: 1px solid #1f2937;
+    }
 
-.games-grid{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-    gap:25px;
-    padding:30px 40px 60px;
-}
+    .game-card:hover {
+        transform:translateY(-10px) scale(1.03);
+        box-shadow:0 0 30px rgba(0,229,255,.4);
+    }
 
-.game-card{
-    background:#111827;
-    border-radius:25px;
-    overflow:hidden;
-    transition:.3s;
-    cursor:pointer;
-    box-shadow:0 0 20px rgba(0,0,0,.5);
-    position:relative;
-    border: 1px solid #1f2937;
-}
+    .game-info {
+        padding:20px;
+    }
 
-.game-card:hover{
-    transform:translateY(-10px) scale(1.03);
-    box-shadow:0 0 30px rgba(0,229,255,.4);
-}
+    .game-info h3 {
+        margin-bottom:10px;
+        font-size:1.3rem;
+        color: white;
+    }
 
-.game-info{
-    padding:20px;
-}
+    .game-info p {
+        color:#a5b4fc;
+        font-size:.9rem;
+    }
 
-.game-info h3{
-    margin-bottom:10px;
-    font-size:1.3rem;
-    color: white;
-}
+    .play-btn {
+        margin-top:15px;
+        width:100%;
+        padding:12px;
+        border:none;
+        border-radius:12px;
+        background:#00e5ff;
+        color:black;
+        font-weight:bold;
+        cursor:pointer;
+        transition:.3s;
+    }
 
-.game-info p{
-    color:#a5b4fc;
-    font-size:.9rem;
-}
+    .play-btn:hover {
+        transform:scale(1.03);
+    }
 
-.play-btn{
-    margin-top:15px;
-    width:100%;
-    padding:12px;
-    border:none;
-    border-radius:12px;
-    background:#00e5ff;
-    color:black;
-    font-weight:bold;
-    cursor:pointer;
-    transition:.3s;
-}
+    .prayer-section {
+        padding: 20px 40px 60px;
+    }
 
-.play-btn:hover{
-    transform:scale(1.03);
-}
+    .prayer-container {
+        background: #111827;
+        border: 1px solid #1f2937;
+        border-radius: 25px;
+        padding: 30px;
+        box-shadow: 0 0 20px rgba(0,0,0,.5);
+    }
 
-.prayer-section {
-    padding: 20px 40px 60px;
-}
+    .prayer-form {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        margin-bottom: 30px;
+    }
 
-.prayer-container {
-    background: #111827;
-    border: 1px solid #1f2937;
-    border-radius: 25px;
-    padding: 30px;
-    box-shadow: 0 0 20px rgba(0,0,0,.5);
-}
+    .prayer-form input, .prayer-form textarea {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid #374151;
+        border-radius: 12px;
+        background: #1f2937;
+        color: white;
+        font-size: 1rem;
+        outline: none;
+        font-family: 'Orbitron', sans-serif;
+    }
 
-.prayer-form {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    margin-bottom: 30px;
-}
+    .prayer-form textarea {
+        resize: vertical;
+        height: 100px;
+    }
 
-.prayer-form input, .prayer-form textarea {
-    width: 100%;
-    padding: 12px;
-    border: 1px solid #374151;
-    border-radius: 12px;
-    background: #1f2937;
-    color: white;
-    font-size: 1rem;
-    outline: none;
-    font-family: 'Orbitron', sans-serif;
-}
+    .prayer-form button {
+        padding: 12px;
+        border: none;
+        border-radius: 12px;
+        background: #00e5ff;
+        color: black;
+        font-weight: bold;
+        cursor: pointer;
+        transition: .3s;
+        font-family: 'Orbitron', sans-serif;
+    }
 
-.prayer-form textarea {
-    resize: vertical;
-    height: 100px;
-}
+    .prayer-form button:hover {
+        transform: scale(1.02);
+    }
 
-.prayer-form button {
-    padding: 12px;
-    border: none;
-    border-radius: 12px;
-    background: #00e5ff;
-    color: black;
-    font-weight: bold;
-    cursor: pointer;
-    transition: .3s;
-    font-family: 'Orbitron', sans-serif;
-}
+    .prayer-list {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        max-height: 400px;
+        overflow-y: auto;
+    }
 
-.prayer-form button:hover {
-    transform: scale(1.02);
-}
+    .prayer-item {
+        background: #1f2937;
+        padding: 15px 20px;
+        border-radius: 15px;
+        border-left: 4px solid #00e5ff;
+        position: relative;
+    }
 
-.prayer-list {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    max-height: 400px;
-    overflow-y: auto;
-}
+    .prayer-item h4 {
+        color: white;
+        font-size: 1.1rem;
+        margin-bottom: 5px;
+    }
 
-.prayer-item {
-    background: #1f2937;
-    padding: 15px 20px;
-    border-radius: 15px;
-    border-left: 4px solid #00e5ff;
-    position: relative;
-}
+    .prayer-item p {
+        color: #cbd5e1;
+        font-size: 0.95rem;
+        margin-bottom: 8px;
+    }
 
-.prayer-item h4 {
-    color: white;
-    font-size: 1.1rem;
-    margin-bottom: 5px;
-}
+    .prayer-item span {
+        font-size: 0.75rem;
+        color: #94a3b8;
+    }
 
-.prayer-item p {
-    color: #cbd5e1;
-    font-size: 0.95rem;
-    margin-bottom: 8px;
-}
+    .delete-btn {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        background: #ef4444;
+        color: white;
+        border: none;
+        padding: 5px 10px;
+        font-size: 0.75rem;
+        border-radius: 6px;
+        cursor: pointer;
+        font-family: 'Orbitron', sans-serif;
+        transition: 0.2s;
+    }
 
-.prayer-item span {
-    font-size: 0.75rem;
-    color: #94a3b8;
-}
+    .delete-btn:hover {
+        background: #dc2626;
+    }
 
-.delete-btn {
-    position: absolute;
-    top: 15px;
-    right: 15px;
-    background: #ef4444;
-    color: white;
-    border: none;
-    padding: 5px 10px;
-    font-size: 0.75rem;
-    border-radius: 6px;
-    cursor: pointer;
-    font-family: 'Orbitron', sans-serif;
-    transition: 0.2s;
-}
+    footer {
+        text-align:center;
+        padding:30px;
+        background:#3a4356;
+        color:#94a3b8;
+    }
 
-.delete-btn:hover {
-    background: #dc2626;
-}
+    .modal {
+        position:fixed;
+        inset:0;
+        background:rgba(0,0,0,.8);
+        display:none;
+        justify-content:center;
+        align-items:center;
+        z-index:1000;
+    }
 
-footer{
-    text-align:center;
-    padding:30px;
-    background:#3a4356;
-    color:#94a3b8;
-}
+    .modal-content {
+        width:90%;
+        height:90%;
+        background:white;
+        border-radius:20px;
+        overflow:hidden;
+        position:relative;
+    }
 
-.modal{
-    position:fixed;
-    inset:0;
-    background:rgba(0,0,0,.8);
-    display:none;
-    justify-content:center;
-    align-items:center;
-    z-index:1000;
-}
+    .news-content {
+        width: 90%;
+        max-width: 500px;
+        height: auto;
+        max-height: 80vh;
+        padding: 40px 30px;
+        background: #111827;
+        color: white;
+        text-align: left;
+        border: 1px solid #1f2937;
+        box-shadow: 0 0 25px rgba(0, 229, 255, 0.2);
+        overflow-y: auto;
+        position: relative;
+        border-radius: 20px;
+    }
 
-.modal-content{
-    width:90%;
-    height:90%;
-    background:white;
-    border-radius:20px;
-    overflow:hidden;
-    position:relative;
-}
+    .news-content h2 {
+        margin-bottom: 15px;
+        font-size: 1.8rem;
+        color: white;
+        text-align: center;
+    }
 
-.news-content {
-    width: 90%;
-    max-width: 500px;
-    height: auto;
-    max-height: 80vh;
-    padding: 40px 30px;
-    background: #111827;
-    color: white;
-    text-align: left;
-    border: 1px solid #1f2937;
-    box-shadow: 0 0 25px rgba(0, 229, 255, 0.2);
-    overflow-y: auto;
-    position: relative;
-    border-radius: 20px;
-}
+    .news-item {
+        margin-bottom: 20px;
+        border-bottom: 1px solid #1f2937;
+        padding-bottom: 15px;
+    }
 
-.news-content h2 {
-    margin-bottom: 15px;
-    font-size: 1.8rem;
-    color: white;
-    text-align: center;
-}
+    .news-item h4 {
+        color: white;
+        font-size: 1.1rem;
+        margin-bottom: 5px;
+        text-align: center;
+    }
 
-.news-item {
-    margin-bottom: 20px;
-    border-bottom: 1px solid #1f2937;
-    padding-bottom: 15px;
-}
+    .news-item span {
+        font-size: 0.8rem;
+        color: #94a3b8;
+        display: block;
+        margin-bottom: 8px;
+    }
 
-.news-item h4 {
-    color: white;
-    font-size: 1.1rem;
-    margin-bottom: 5px;
-    text-align: center;
+    .news-item p {
+        color: #cbd5e1;
+        font-size: 0.95rem;
+    }
 
+    .modal iframe {
+        width:100%;
+        height:100%;
+        border:none;
+    }
 
-}
-
-.news-item span {
-    font-size: 0.8rem;
-    color: #94a3b8;
-    display: block;
-    margin-bottom: 8px;
-}
-
-.news-item p {
-    color: #cbd5e1;
-    font-size: 0.95rem;
-}
-
-.modal iframe{
-    width:100%;
-    height:100%;
-    border:none;
-}
-
-.close-btn{
-    position:absolute;
-    top:15px;
-    right:15px;
-    background:red;
-    color:white;
-    border:none;
-    width:40px;
-    height:40px;
-    border-radius:50%;
-    cursor:pointer;
-    font-size:1.2rem;
-    z-index:5;
-}
-    
-</style>
-    
+    .close-btn {
+        position:absolute;
+        top:15px;
+        right:15px;
+        background:red;
+        color:white;
+        border:none;
+        width:40px;
+        height:40px;
+        border-radius:50%;
+        cursor:pointer;
+        font-size:1.2rem;
+        z-index:5;
+    }
+    </style>
 </head>
 <body>
 
 <header>
-    <h1>PrayerWeb </h1>
+    <h1>PrayerWeb</h1>
     <div class="search-box">
         <input type="text" id="search" placeholder="keyword...">
+    </div>
+    
+    <!-- Auth Buttons Container -->
+    <div id="authContainer">
+        <button id="authBtn" onclick="openAuthModal()" class="outline-btn" style="padding: 8px 16px; font-size: 0.9rem;">Sign In / Sign Up</button>
+        <div id="userInfo" style="display: none; color: white; gap: 10px; align-items: center;">
+            <span id="userDisplayName" style="font-size: 0.85rem;"></span>
+            <button id="logoutBtn" style="padding: 6px 12px; font-size: 0.8rem; background: #ef4444; color: white; border: none; border-radius: 8px; cursor: pointer;">Sign Out</button>
+        </div>
     </div>
 </header>
 
@@ -392,21 +394,14 @@ footer{
     <div class="hero-content">
         <p>Welcome To...</p>
         <h2>PrayerWeb</h2>
-        <h4>by: CatholicG </h4>
+        <h4>by: CatholicG</h4>
         <button onclick="scrollToGames()">START BROWSING</button>
         <button onclick="openNewsModal()" class="outline-btn">WHAT'S NEW</button>
     </div>
 </section>
 
 <h2 class="section-title">Prayers</h2>
-<!--<section class="games-grid" id="gamesGrid">
-    <div class="game-card" data-name="Saint Martin de Porres">
-        <div class="game-info">
-            <h3>Life of Saint Martin de porres</h3>
-            <p>Read about Saint Martin here</p>
-            <button class="play-btn" onclick="openGame('https://CatholicG.github.io/Info-Saint-Martin/')">READ</button>
-        </div>
-    </div>-->
+<section class="games-grid" id="gamesGrid">
     <div class="game-card" data-name="The Angelus">
         <div class="game-info">
             <h3>The Angelus</h3>
@@ -422,15 +417,15 @@ footer{
         <p id="statusMsg" style="color: #00e5ff; font-size: 0.85rem; margin-bottom: 10px;"></p>
         
         <form class="prayer-form" id="prayerForm">
-            <input type="text" id="prayerName" placeholder="Your Name or 'Anonymous'" required>
+            <input type="text" id="prayerName" placeholder="Your Nickname or 'Anonymous'" required>
             <textarea id="prayerText" placeholder="Share your prayer intention..." required></textarea>
             <button type="submit">Submit Prayer Request</button>
         </form>
-        <div class="prayer-list" id="prayerList">
-            </div>
+        <div class="prayer-list" id="prayerList"></div>
     </div>
 </section>
 
+<!-- Modals -->
 <div class="modal" id="gameModal">
     <div class="modal-content">
         <button class="close-btn" onclick="closeGame()">X</button>
@@ -448,7 +443,6 @@ footer{
             <span>August 2026</span>
             <p>Now comes up on search results!</p>
         </div>
-        
         <div class="news-item">
             <h4>Self-Deletion Feature Added</h4>
             <span>July 2026</span>
@@ -467,10 +461,34 @@ footer{
     </div>
 </div>
 
+<!-- Sign In / Sign Up Modal -->
+<div class="modal" id="authModal">
+    <div class="news-content" style="max-width: 400px; text-align: center;">
+        <button class="close-btn" onclick="closeAuthModal()">X</button>
+        <h2 id="authTitle">Sign In</h2>
+        
+        <form id="authForm" style="display: flex; flex-direction: column; gap: 15px; margin-top: 20px;">
+            <input type="text" id="authNickname" placeholder="Nickname (for prayer posts)" style="display: none; width: 100%; padding: 12px; border-radius: 12px; background: #1f2937; color: white; border: 1px solid #374151; font-family: 'Orbitron', sans-serif;">
+            <input type="email" id="authEmail" placeholder="Email Address" required style="width: 100%; padding: 12px; border-radius: 12px; background: #1f2937; color: white; border: 1px solid #374151; font-family: 'Orbitron', sans-serif;">
+            <input type="password" id="authPassword" placeholder="Password (min 6 chars)" required style="width: 100%; padding: 12px; border-radius: 12px; background: #1f2937; color: white; border: 1px solid #374151; font-family: 'Orbitron', sans-serif;">
+            
+            <p id="authError" style="color: #ef4444; font-size: 0.85rem; margin: 0;"></p>
+
+            <button type="submit" id="authSubmitBtn" style="padding: 12px; border: none; border-radius: 12px; background: #00e5ff; color: black; font-weight: bold; cursor: pointer; font-family: 'Orbitron', sans-serif;">Sign In</button>
+        </form>
+
+        <p style="margin-top: 20px; font-size: 0.85rem; color: #cbd5e1;">
+            <span id="toggleAuthText">Don't have an account?</span> 
+            <a href="#" id="toggleAuthLink" style="color: #00e5ff; text-decoration: underline;">Sign Up</a>
+        </p>
+    </div>
+</div>
+
 <footer>
     © 2026 CatholicG
 </footer>
 
+<!-- General UI Interactions -->
 <script>
 function scrollToGames(){
     document.getElementById('gamesGrid').scrollIntoView({
@@ -496,6 +514,15 @@ function closeNewsModal(){
     document.getElementById('newsModal').style.display='none';
 }
 
+function openAuthModal(){
+    document.getElementById('authModal').style.display='flex';
+}
+
+function closeAuthModal(){
+    document.getElementById('authModal').style.display='none';
+    document.getElementById('authError').textContent = '';
+}
+
 const search = document.getElementById('search');
 const cards = document.querySelectorAll('.game-card');
 
@@ -514,9 +541,18 @@ search.addEventListener('input', () => {
 });
 </script>
 
+<!-- Firebase Firestore & Authentication Logic -->
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
   import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc, query } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
+  import { 
+      getAuth, 
+      createUserWithEmailAndPassword, 
+      signInWithEmailAndPassword, 
+      signOut, 
+      onAuthStateChanged,
+      updateProfile 
+  } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
 
   const firebaseConfig = {
     apiKey: "AIzaSyCrmEhh4ZUWl4MKB96bFjVu6bEFBuyAEI",
@@ -529,16 +565,110 @@ search.addEventListener('input', () => {
 
   const app = initializeApp(firebaseConfig);
   const db = getFirestore(app);
+  const auth = getAuth(app);
 
   const prayerForm = document.getElementById('prayerForm');
   const prayerList = document.getElementById('prayerList');
   const statusMsg = document.getElementById('statusMsg');
+  const prayerNameInput = document.getElementById('prayerName');
+
+  // Auth UI Elements
+  const authForm = document.getElementById('authForm');
+  const authNickname = document.getElementById('authNickname');
+  const authEmail = document.getElementById('authEmail');
+  const authPassword = document.getElementById('authPassword');
+  const authTitle = document.getElementById('authTitle');
+  const authSubmitBtn = document.getElementById('authSubmitBtn');
+  const toggleAuthLink = document.getElementById('toggleAuthLink');
+  const toggleAuthText = document.getElementById('toggleAuthText');
+  const authError = document.getElementById('authError');
+  const authBtn = document.getElementById('authBtn');
+  const userInfo = document.getElementById('userInfo');
+  const userDisplayName = document.getElementById('userDisplayName');
+  const logoutBtn = document.getElementById('logoutBtn');
+
+  let isSignUpMode = false;
+  let currentUser = null;
 
   let userToken = localStorage.getItem('prayer_user_token');
   if (!userToken) {
       userToken = 'user_' + Math.random().toString(36).substring(2) + Date.now().toString(36);
       localStorage.setItem('prayer_user_token', userToken);
   }
+
+  // Toggle Authentication Mode
+  toggleAuthLink.addEventListener('click', (e) => {
+      e.preventDefault();
+      isSignUpMode = !isSignUpMode;
+      authError.textContent = '';
+      
+      if (isSignUpMode) {
+          authTitle.textContent = "Sign Up";
+          authSubmitBtn.textContent = "Create Account";
+          toggleAuthText.textContent = "Already have an account?";
+          toggleAuthLink.textContent = "Sign In";
+          authNickname.style.display = 'block';
+          authNickname.required = true;
+      } else {
+          authTitle.textContent = "Sign In";
+          authSubmitBtn.textContent = "Sign In";
+          toggleAuthText.textContent = "Don't have an account?";
+          toggleAuthLink.textContent = "Sign Up";
+          authNickname.style.display = 'none';
+          authNickname.required = false;
+      }
+  });
+
+  // Process Authentication Form Submission
+  authForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      authError.textContent = '';
+      const email = authEmail.value;
+      const password = authPassword.value;
+      const nickname = authNickname.value.trim();
+
+      try {
+          if (isSignUpMode) {
+              const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+              if (nickname) {
+                  await updateProfile(userCredential.user, {
+                      displayName: nickname
+                  });
+              }
+          } else {
+              await signInWithEmailAndPassword(auth, email, password);
+          }
+          authEmail.value = '';
+          authPassword.value = '';
+          authNickname.value = '';
+          window.closeAuthModal();
+      } catch (error) {
+          authError.textContent = error.message.replace("Firebase: ", "");
+      }
+  });
+
+  // Handle Sign Out
+  logoutBtn.addEventListener('click', async () => {
+      await signOut(auth);
+  });
+
+  // Listen for Auth State Changes
+  onAuthStateChanged(auth, (user) => {
+      currentUser = user;
+      if (user) {
+          authBtn.style.display = 'none';
+          userInfo.style.display = 'flex';
+          const nameToDisplay = user.displayName || user.email;
+          userDisplayName.textContent = nameToDisplay;
+          prayerNameInput.value = user.displayName || '';
+      } else {
+          authBtn.style.display = 'block';
+          userInfo.style.display = 'none';
+          userDisplayName.textContent = '';
+          prayerNameInput.value = '';
+      }
+      fetchPrayers();
+  });
 
   async function fetchPrayers() {
       try {
@@ -562,7 +692,7 @@ search.addEventListener('input', () => {
               prayerItem.className = 'prayer-item';
               
               let deleteBtnHTML = '';
-              if (prayer.ownerToken === userToken) {
+              if ((currentUser && prayer.ownerUid === currentUser.uid) || (prayer.ownerToken === userToken)) {
                   deleteBtnHTML = `<button class="delete-btn" onclick="window.deletePrayer('${prayerId}')">Delete</button>`;
               }
 
@@ -583,10 +713,9 @@ search.addEventListener('input', () => {
 
   prayerForm.addEventListener('submit', async (e) => {
       e.preventDefault();
-      const nameInput = document.getElementById('prayerName');
       const textInput = document.getElementById('prayerText');
       
-      const name = nameInput.value.trim();
+      const name = prayerNameInput.value.trim();
       const text = textInput.value.trim();
       
       if(name && text) {
@@ -597,11 +726,14 @@ search.addEventListener('input', () => {
                   name: name,
                   text: text,
                   ownerToken: userToken,
+                  ownerUid: currentUser ? currentUser.uid : null,
                   createdAt: new Date()
               });
 
-              nameInput.value = '';
               textInput.value = '';
+              if (!currentUser) {
+                  prayerNameInput.value = '';
+              }
               statusMsg.textContent = "Prayer submitted successfully!";
               fetchPrayers();
           } catch (error) {
