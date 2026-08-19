@@ -417,8 +417,8 @@
         <p id="statusMsg" style="color: #00e5ff; font-size: 0.85rem; margin-bottom: 10px;"></p>
         
         <form class="prayer-form" id="prayerForm">
-            <input type="text" id="prayerName" placeholder="Your Nickname or 'Anonymous'" required>
-            <textarea id="prayerText" placeholder="Share your Irayer Intention or Encouragement... " required></textarea>
+            <input type="text" id="prayerName" placeholder="Your Nickname (Defaults to Anonymous)">
+            <textarea id="prayerText" placeholder="Share your Prayer Intention or Encouragement... " required></textarea>
             <button type="submit">Submit Prayer Request or Encouragement </button>
         </form>
         <div class="prayer-list" id="prayerList"></div>
@@ -566,7 +566,7 @@ search.addEventListener('input', () => {
 
   // 2. Firebase configuration
   const firebaseConfig = {
-      apiKey: "AIzaSyAx125psZK025ZRmZjT2qEWUrN-Lm-kXJI",
+      apiKey: "AIzaSyCj4D0aC-YWyOnP-U-KAL53rjuRH2ciG2o",
       authDomain: "catholicg-prayer-web.firebaseapp.com",
       projectId: "catholicg-prayer-web",
       storageBucket: "catholicg-prayer-web.firebasestorage.app",
@@ -707,8 +707,18 @@ search.addEventListener('input', () => {
               prayerItem.className = 'prayer-item';
               
               let deleteBtnHTML = '';
-              if ((currentUser && prayer.ownerUid === currentUser.uid) || (prayer.ownerToken === userToken)) {
-                  deleteBtnHTML = `<button class="delete-btn" onclick="window.deletePrayer('${prayerId}')">Delete</button>`;
+              
+              // Deletion Rule Logic:
+              // 1. If signed in, allow deletion only if prayer.ownerUid matches currentUser.uid
+              // 2. If NOT signed in, allow deletion only if post was anonymous (ownerUid is null) AND ownerToken matches local token
+              if (currentUser) {
+                  if (prayer.ownerUid && prayer.ownerUid === currentUser.uid) {
+                      deleteBtnHTML = `<button class="delete-btn" onclick="window.deletePrayer('${prayerId}')">Delete</button>`;
+                  }
+              } else {
+                  if (!prayer.ownerUid && prayer.ownerToken === userToken) {
+                      deleteBtnHTML = `<button class="delete-btn" onclick="window.deletePrayer('${prayerId}')">Delete</button>`;
+                  }
               }
 
               prayerItem.innerHTML = `
@@ -731,10 +741,14 @@ search.addEventListener('input', () => {
       e.preventDefault();
       const textInput = document.getElementById('prayerText');
       
-      const name = prayerNameInput.value.trim();
+      let name = prayerNameInput.value.trim();
+      if (!name) {
+          name = "Anonymous";
+      }
+      
       const text = textInput.value.trim();
       
-      if(name && text) {
+      if(text) {
           try {
               statusMsg.textContent = "Submitting prayer...";
               
