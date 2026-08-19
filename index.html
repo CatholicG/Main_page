@@ -117,11 +117,18 @@
         color: white;
     }
 
+    /* Fixed to display 3 columns per row */
     .games-grid {
         display:grid;
-        grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+        grid-template-columns:repeat(3, 1fr);
         gap:25px;
         padding:30px 40px 60px;
+    }
+
+    @media (max-width: 900px) {
+        .games-grid {
+            grid-template-columns:repeat(auto-fit, minmax(260px, 1fr));
+        }
     }
 
     .game-card {
@@ -409,7 +416,6 @@
             <button class="play-btn" onclick="openGame('https://GMW1-9.github.io/Angelus/')">PRAY</button>
         </div>
     </div>
-</section>
 
     <div class="game-card" data-name="Our Father">
         <div class="game-info">
@@ -556,7 +562,6 @@ search.addEventListener('input', () => {
     });
 });
 </script>
-
 
 <script type="module">
   // 1. Import necessary Firebase SDK functions
