@@ -687,7 +687,7 @@ search.addEventListener('input', () => {
   // Fetch Prayers
   async function fetchPrayers() {
       try {
-          statusMsg.textContent = "Loading prayers...";
+          statusMsg.textContent = "Loading prayers & Encouragement...";
           const q = query(collection(db, "prayers"));
           const querySnapshot = await getDocs(q);
           
