@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/> 
-    <title>PrayerWeb by: GMW1:9 - Community Prayer & Encouragement Wall + Prayers to Pray</title>
+    <title>PrayerWeb by: CatholicG - Community Prayer & Encouragement Wall + Prayers to Pray</title>
     
     <meta name="description" content="Welcome to the Prayer web. Share live community prayer requests, and explore Catholic resources, but still new on the web." />
-    <meta name="keywords" content="Catholic prayer wall, Catholic web, prayer requests, Catholic resources, GMW1:9, Prayer web, Encouragement Wall" />
-    <meta name="author" content="GMW1:9" />
+    <meta name="keywords" content="Catholic prayer wall, Catholic web, prayer requests, Catholic resources, CatholicG, Prayer web, Encouragement Wall" />
+    <meta name="author" content="CatholicG" />
 
     <style>
     * {
@@ -119,20 +119,14 @@
 
     .games-grid {
         display:grid;
-        grid-template-columns:repeat(3, 1fr);
+        grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
         gap:25px;
         padding:30px 40px 60px;
     }
 
-    @media (max-width: 900px) {
-        .games-grid {
-            grid-template-columns:repeat(auto-fit, minmax(260px, 1fr));
-        }
-    }
-
     .game-card {
         background:#111827;
-        border-radius:10px;
+        border-radius:25px;
         overflow:hidden;
         transition:.3s;
         cursor:pointer;
@@ -386,6 +380,7 @@
         <input type="text" id="search" placeholder="keyword...">
     </div>
     
+    <!-- Auth Buttons Container -->
     <div id="authContainer">
         <button id="authBtn" onclick="openAuthModal()" class="outline-btn" style="padding: 8px 16px; font-size: 0.9rem;">Sign In / Sign Up</button>
         <div id="userInfo" style="display: none; color: white; gap: 10px; align-items: center;">
@@ -399,7 +394,7 @@
     <div class="hero-content">
         <p>Welcome To...</p>
         <h2>PrayerWeb</h2>
-        <h4>by: GMW1:9</h4>
+        <h4>by: CatholicG</h4>
         <button onclick="scrollToGames()">START BROWSING</button>
         <button onclick="openNewsModal()" class="outline-btn">WHAT'S NEW</button>
     </div>
@@ -411,15 +406,7 @@
         <div class="game-info">
             <h3>The Angelus</h3>
             <p>A prayer based on scripture and the Annunciation</p> 
-            <button class="play-btn" onclick="openGame('https://GMW1-9.github.io/Angelus/')">PRAY</button>
-        </div>
-    </div>
-
-    <div class="game-card" data-name="Our Father">
-        <div class="game-info">
-            <h3>Our Father</h3>
-            <p> The prayer Jesus taught his disciples! </p> 
-            <button class="play-btn" onclick="openGame('https://gmw1-9.github.io/Our-Father/')">PRAY</button>
+            <button class="play-btn" onclick="openGame('https://CatholicG.github.io/Angelus/')">PRAY</button>
         </div>
     </div>
 </section>
@@ -452,17 +439,10 @@
         <h2>What's New</h2>
         
         <div class="news-item">
-            <h4>Our Father</h4>
+            <h4>Launched on Google search</h4>
             <span>August 2026</span>
-            <p>The prayer Jesus taught his disciples!</p>
+            <p>Now comes up on search results!</p>
         </div>
-        
-        <div class="news-item">
-            <h4>Accounts Able NOW</h4>
-            <span>August 2026</span>
-            <p> sign up and get on to any device for sending your prayers the default nickname </p>
-        </div>
-        
         <div class="news-item">
             <h4>Self-Deletion Feature Added</h4>
             <span>July 2026</span>
@@ -497,24 +477,27 @@
             <button type="submit" id="authSubmitBtn" style="padding: 12px; border: none; border-radius: 12px; background: #00e5ff; color: black; font-weight: bold; cursor: pointer; font-family: 'Orbitron', sans-serif;">Sign In</button>
         </form>
 
-        <p style="margin-top: 20px; font-size: 0.85rem; color: #cbd5e1;">
+        <p id="forgotPasswordContainer" style="margin-top: 15px; font-size: 0.85rem;">
+            <a href="#" id="forgotPasswordBtn" style="color: #a5b4fc; text-decoration: underline;">Forgot Password?</a>
+        </p>
+
+        <p style="margin-top: 10px; font-size: 0.85rem; color: #cbd5e1;">
             <span id="toggleAuthText">Don't have an account?</span> 
             <a href="#" id="toggleAuthLink" style="color: #00e5ff; text-decoration: underline;">Sign Up</a>
-        </p>
-        <p style="margin-top: 10px; font-size: 0.85rem; color: #cbd5e1;">
-            <a href="#" id="forgotPasswordLink" style="color: #00e5ff; text-decoration: underline;">Forgot Password?</a>
         </p>
     </div>
 </div>
 
 <footer>
-    © 2026 GMW1:9
+    © 2026 CatholicG
 </footer>
 
-<!-- UI Script -->
+<!-- General UI Interactions -->
 <script>
 function scrollToGames(){
-    document.getElementById('gamesGrid').scrollIntoView({ behavior:'smooth' });
+    document.getElementById('gamesGrid').scrollIntoView({
+        behavior:'smooth'
+    });
 }
 
 function openGame(url){
@@ -544,29 +527,27 @@ function closeAuthModal(){
     document.getElementById('authError').textContent = '';
 }
 
-// Bind directly to window so module scripts can call them seamlessly
-window.openAuthModal = openAuthModal;
-window.closeAuthModal = closeAuthModal;
-window.openNewsModal = openNewsModal;
-window.closeNewsModal = closeNewsModal;
-window.openGame = openGame;
-window.closeGame = closeGame;
-window.scrollToGames = scrollToGames;
-
 const search = document.getElementById('search');
 const cards = document.querySelectorAll('.game-card');
 
 search.addEventListener('input', () => {
     const value = search.value.toLowerCase();
+
     cards.forEach(card => {
         const name = card.dataset.name.toLowerCase();
-        card.style.display = name.includes(value) ? 'block' : 'none';
+
+        if(name.includes(value)){
+            card.style.display='block';
+        } else {
+            card.style.display='none';
+        }
     });
 });
 </script>
 
-<!-- Firebase Script -->
+
 <script type="module">
+  // 1. Import necessary Firebase SDK functions
   import { initializeApp } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-app.js";
   import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-analytics.js";
   import { 
@@ -582,12 +563,13 @@ search.addEventListener('input', () => {
       getAuth, 
       createUserWithEmailAndPassword, 
       signInWithEmailAndPassword, 
+      sendPasswordResetEmail,
       updateProfile, 
       signOut, 
-      onAuthStateChanged,
-      sendPasswordResetEmail
+      onAuthStateChanged 
   } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-auth.js";
 
+  // 2. Firebase configuration
   const firebaseConfig = {
       apiKey: "AIzaSyAx125psZK025ZRmZjT2qEWUrN-Lm-kXJI",
       authDomain: "catholicg-prayer-web.firebaseapp.com",
@@ -598,11 +580,13 @@ search.addEventListener('input', () => {
       measurementId: "G-YKTS9P56XW"
   };
 
+  // 3. Initialize Firebase services once
   const app = initializeApp(firebaseConfig);
   const analytics = getAnalytics(app);
   const db = getFirestore(app);
   const auth = getAuth(app);
 
+  // 4. DOM Elements
   const prayerForm = document.getElementById('prayerForm');
   const prayerList = document.getElementById('prayerList');
   const statusMsg = document.getElementById('statusMsg');
@@ -616,7 +600,8 @@ search.addEventListener('input', () => {
   const authSubmitBtn = document.getElementById('authSubmitBtn');
   const toggleAuthLink = document.getElementById('toggleAuthLink');
   const toggleAuthText = document.getElementById('toggleAuthText');
-  const forgotPasswordLink = document.getElementById('forgotPasswordLink');
+  const forgotPasswordBtn = document.getElementById('forgotPasswordBtn');
+  const forgotPasswordContainer = document.getElementById('forgotPasswordContainer');
   const authError = document.getElementById('authError');
   const authBtn = document.getElementById('authBtn');
   const userInfo = document.getElementById('userInfo');
@@ -632,6 +617,7 @@ search.addEventListener('input', () => {
       localStorage.setItem('prayer_user_token', userToken);
   }
 
+  // Toggle Authentication Mode (Sign In <-> Sign Up)
   toggleAuthLink.addEventListener('click', (e) => {
       e.preventDefault();
       isSignUpMode = !isSignUpMode;
@@ -644,7 +630,7 @@ search.addEventListener('input', () => {
           toggleAuthLink.textContent = "Sign In";
           authNickname.style.display = 'block';
           authNickname.required = true;
-          forgotPasswordLink.style.display = 'none';
+          forgotPasswordContainer.style.display = 'none';
       } else {
           authTitle.textContent = "Sign In";
           authSubmitBtn.textContent = "Sign In";
@@ -652,30 +638,33 @@ search.addEventListener('input', () => {
           toggleAuthLink.textContent = "Sign Up";
           authNickname.style.display = 'none';
           authNickname.required = false;
-          forgotPasswordLink.style.display = 'inline';
+          forgotPasswordContainer.style.display = 'block';
       }
   });
 
-  forgotPasswordLink.addEventListener('click', async (e) => {
+  // Handle Forgot Password Click
+  forgotPasswordBtn.addEventListener('click', async (e) => {
       e.preventDefault();
+      authError.textContent = '';
       const email = authEmail.value.trim();
 
       if (!email) {
           authError.style.color = '#ef4444';
-          authError.textContent = "Please enter your email address first.";
+          authError.textContent = 'Please enter your email address above to reset your password.';
           return;
       }
 
       try {
           await sendPasswordResetEmail(auth, email);
-          authError.style.color = '#10b981';
-          authError.textContent = "Password reset email sent! Check your inbox.";
+          authError.style.color = '#00e5ff';
+          authError.textContent = 'Password reset email sent! Check your inbox.';
       } catch (error) {
           authError.style.color = '#ef4444';
           authError.textContent = error.message.replace("Firebase: ", "");
       }
   });
 
+  // Handle Form Submission for Sign In / Sign Up
   authForm.addEventListener('submit', async (e) => {
       e.preventDefault();
       authError.style.color = '#ef4444';
@@ -700,15 +689,16 @@ search.addEventListener('input', () => {
           authNickname.value = '';
           window.closeAuthModal();
       } catch (error) {
-          authError.style.color = '#ef4444';
           authError.textContent = error.message.replace("Firebase: ", "");
       }
   });
 
+  // Handle Sign Out
   logoutBtn.addEventListener('click', async () => {
       await signOut(auth);
   });
 
+  // Listen for Auth State Changes
   onAuthStateChanged(auth, (user) => {
       currentUser = user;
       if (user) {
@@ -726,6 +716,7 @@ search.addEventListener('input', () => {
       fetchPrayers();
   });
 
+  // Fetch Prayers
   async function fetchPrayers() {
       try {
           statusMsg.textContent = "Loading prayers & Encouragement...";
@@ -734,19 +725,10 @@ search.addEventListener('input', () => {
           
           prayerList.innerHTML = ''; 
           
-          let posts = [];
           querySnapshot.forEach((docSnapshot) => {
-              posts.push({ id: docSnapshot.id, ...docSnapshot.data() });
-          });
-
-          // Sort in JavaScript instead of Firestore query to prevent index errors
-          posts.sort((a, b) => {
-              const timeA = a.createdAt ? (a.createdAt.toDate ? a.createdAt.toDate() : new Date(a.createdAt)) : 0;
-              const timeB = b.createdAt ? (b.createdAt.toDate ? b.createdAt.toDate() : new Date(b.createdAt)) : 0;
-              return timeB - timeA;
-          });
-
-          posts.forEach((prayer) => {
+              const prayer = docSnapshot.data();
+              const prayerId = docSnapshot.id;
+              
               let dateStr = "";
               if (prayer.createdAt) {
                   const dateObj = prayer.createdAt.toDate ? prayer.createdAt.toDate() : new Date(prayer.createdAt);
@@ -758,7 +740,7 @@ search.addEventListener('input', () => {
               
               let deleteBtnHTML = '';
               if ((currentUser && prayer.ownerUid === currentUser.uid) || (prayer.ownerToken === userToken)) {
-                  deleteBtnHTML = `<button class="delete-btn" onclick="window.deletePrayer('${prayer.id}')">Delete</button>`;
+                  deleteBtnHTML = `<button class="delete-btn" onclick="window.deletePrayer('${prayerId}')">Delete</button>`;
               }
 
               prayerItem.innerHTML = `
@@ -776,6 +758,7 @@ search.addEventListener('input', () => {
       }
   }
 
+  // Handle Prayer Request Submission
   prayerForm.addEventListener('submit', async (e) => {
       e.preventDefault();
       const textInput = document.getElementById('prayerText');
@@ -809,6 +792,7 @@ search.addEventListener('input', () => {
       }
   });
 
+  // Delete Prayer Function
   window.deletePrayer = async function(prayerId) {
       if (confirm("Are you sure you want to delete this prayer request?")) {
           try {
