@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/> 
-    <title>PrayerWeb by: CatholicG - Community Prayer & Encouragement Wall + Prayers to Pray</title>
+    <title>PrayerWeb by: GMW1:9 - Community Prayer & Encouragement Wall + Prayers to Pray</title>
     
     <meta name="description" content="Welcome to the Prayer web. Share live community prayer requests, and explore Catholic resources, but still new on the web." />
-    <meta name="keywords" content="Catholic prayer wall, Catholic web, prayer requests, Catholic resources, CatholicG, Prayer web, Encouragement Wall" />
-    <meta name="author" content="CatholicG" />
+    <meta name="keywords" content="Catholic prayer wall, Catholic web, prayer requests, Catholic resources, GMW1:9, Prayer web, Encouragement Wall" />
+    <meta name="author" content="GMW1:9" />
 
     <style>
     * {
@@ -394,7 +394,7 @@
     <div class="hero-content">
         <p>Welcome To...</p>
         <h2>PrayerWeb</h2>
-        <h4>by: CatholicG</h4>
+        <h4>by: GMW1:9</h4>
         <button onclick="scrollToGames()">START BROWSING</button>
         <button onclick="openNewsModal()" class="outline-btn">WHAT'S NEW</button>
     </div>
@@ -485,7 +485,7 @@
 </div>
 
 <footer>
-    © 2026 CatholicG
+    © 2026 GMW1:9
 </footer>
 
 <!-- General UI Interactions -->
@@ -540,8 +540,33 @@ search.addEventListener('input', () => {
     });
 });
 </script>
+    <!-- new part 
+    <script type="module">
+  // Import the functions you need from the SDKs you need
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-app.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-analytics.js";
+  // TODO: Add SDKs for Firebase products that you want to use
+  // https://firebase.google.com/docs/web/setup#available-libraries
+
+  // Your web app's Firebase configuration
+  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+  const firebaseConfig = {
+    apiKey: "AIzaSyBmXeGtpshC6ElyFirjc7FJJLBLcoiWd9A",
+    authDomain: "gmw1-9-prayer-web.firebaseapp.com",
+    projectId: "gmw1-9-prayer-web",
+    storageBucket: "gmw1-9-prayer-web.firebasestorage.app",
+    messagingSenderId: "501864503672",
+    appId: "1:501864503672:web:528675c564dccf012cd08d",
+    measurementId: "G-WMNMP9GPNF"
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
 
 
+  new part end -->
+    
 <script type="module">
   // 1. Import necessary Firebase SDK functions
   import { initializeApp } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-app.js";
@@ -565,15 +590,20 @@ search.addEventListener('input', () => {
   } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-auth.js";
 
   // 2. Firebase configuration
+   
+    // Your web app's Firebase configuration
+    
+  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
   const firebaseConfig = {
-      apiKey: "AIzaSyAx125psZK025ZRmZjT2qEWUrN-Lm-kXJI",
-      authDomain: "catholicg-prayer-web.firebaseapp.com",
-      projectId: "catholicg-prayer-web",
-      storageBucket: "catholicg-prayer-web.firebasestorage.app",
-      messagingSenderId: "85420889115",
-      appId: "1:85420889115:web:d2b2c8695b89a45936d4be",
-      measurementId: "G-YKTS9P56XW"
+    apiKey: "AIzaSyBmXeGtpshC6ElyFirjc7FJJLBLcoiWd9A",
+    authDomain: "gmw1-9-prayer-web.firebaseapp.com",
+    projectId: "gmw1-9-prayer-web",
+    storageBucket: "gmw1-9-prayer-web.firebasestorage.app",
+    messagingSenderId: "501864503672",
+    appId: "1:501864503672:web:528675c564dccf012cd08d",
+    measurementId: "G-WMNMP9GPNF"
   };
+ 
 
   // 3. Initialize Firebase services once
   const app = initializeApp(firebaseConfig);
@@ -750,7 +780,7 @@ search.addEventListener('input', () => {
       
       if(text) {
           try {
-              statusMsg.textContent = "Submitting prayer...";
+              statusMsg.textContent = "Submitting prayer/...";
               
               await addDoc(collection(db, "prayers"), {
                   name: name,
@@ -764,7 +794,7 @@ search.addEventListener('input', () => {
               if (!currentUser) {
                   prayerNameInput.value = '';
               }
-              statusMsg.textContent = "Prayer submitted successfully!";
+              statusMsg.textContent = "Prayer/ submitted successfully!";
               fetchPrayers();
           } catch (error) {
               alert("Error submitting prayer. Check console for details.");
