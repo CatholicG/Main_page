@@ -518,11 +518,6 @@ function openAuthModal(){
     document.getElementById('authModal').style.display='flex';
 }
 
-function closeAuthModal(){
-    document.getElementById('authModal').style.display='none';
-    document.getElementById('authError').textContent = '';
-}
-
 const search = document.getElementById('search');
 const cards = document.querySelectorAll('.game-card');
 
@@ -540,35 +535,8 @@ search.addEventListener('input', () => {
     });
 });
 </script>
-    <!-- new part 
-    <script type="module">
-  // Import the functions you need from the SDKs you need
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-app.js";
-  import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-analytics.js";
-  // TODO: Add SDKs for Firebase products that you want to use
-  // https://firebase.google.com/docs/web/setup#available-libraries
 
-  // Your web app's Firebase configuration
-  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-  const firebaseConfig = {
-    apiKey: "AIzaSyBmXeGtpshC6ElyFirjc7FJJLBLcoiWd9A",
-    authDomain: "gmw1-9-prayer-web.firebaseapp.com",
-    projectId: "gmw1-9-prayer-web",
-    storageBucket: "gmw1-9-prayer-web.firebasestorage.app",
-    messagingSenderId: "501864503672",
-    appId: "1:501864503672:web:528675c564dccf012cd08d",
-    measurementId: "G-WMNMP9GPNF"
-  };
-
-  // Initialize Firebase
-  const app = initializeApp(firebaseConfig);
-  const analytics = getAnalytics(app);
-
-
-  new part end -->
-    
 <script type="module">
-  // 1. Import necessary Firebase SDK functions
   import { initializeApp } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-app.js";
   import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-analytics.js";
   import { 
@@ -578,7 +546,8 @@ search.addEventListener('input', () => {
       addDoc, 
       deleteDoc, 
       doc, 
-      query 
+      query,
+      orderBy 
   } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js";
   import { 
       getAuth, 
@@ -589,11 +558,6 @@ search.addEventListener('input', () => {
       onAuthStateChanged 
   } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-auth.js";
 
-  // 2. Firebase configuration
-   
-    // Your web app's Firebase configuration
-    
-  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
   const firebaseConfig = {
     apiKey: "AIzaSyBmXeGtpshC6ElyFirjc7FJJLBLcoiWd9A",
     authDomain: "gmw1-9-prayer-web.firebaseapp.com",
@@ -603,15 +567,12 @@ search.addEventListener('input', () => {
     appId: "1:501864503672:web:528675c564dccf012cd08d",
     measurementId: "G-WMNMP9GPNF"
   };
- 
 
-  // 3. Initialize Firebase services once
   const app = initializeApp(firebaseConfig);
   const analytics = getAnalytics(app);
   const db = getFirestore(app);
   const auth = getAuth(app);
 
-  // 4. DOM Elements
   const prayerForm = document.getElementById('prayerForm');
   const prayerList = document.getElementById('prayerList');
   const statusMsg = document.getElementById('statusMsg');
@@ -640,7 +601,11 @@ search.addEventListener('input', () => {
       localStorage.setItem('prayer_user_token', userToken);
   }
 
-  // Toggle Authentication Mode (Sign In <-> Sign Up)
+  window.closeAuthModal = function() {
+      document.getElementById('authModal').style.display = 'none';
+      authError.textContent = '';
+  };
+
   toggleAuthLink.addEventListener('click', (e) => {
       e.preventDefault();
       isSignUpMode = !isSignUpMode;
@@ -663,7 +628,6 @@ search.addEventListener('input', () => {
       }
   });
 
-  // Handle Form Submission for Sign In / Sign Up
   authForm.addEventListener('submit', async (e) => {
       e.preventDefault();
       authError.textContent = '';
@@ -691,12 +655,10 @@ search.addEventListener('input', () => {
       }
   });
 
-  // Handle Sign Out
   logoutBtn.addEventListener('click', async () => {
       await signOut(auth);
   });
 
-  // Listen for Auth State Changes
   onAuthStateChanged(auth, (user) => {
       currentUser = user;
       if (user) {
@@ -714,11 +676,10 @@ search.addEventListener('input', () => {
       fetchPrayers();
   });
 
-  // Fetch Prayers
   async function fetchPrayers() {
       try {
-          statusMsg.textContent = "Loading prayers & Encouragement...";
-          const q = query(collection(db, "prayers"));
+          statusMsg.textContent = "Loading prayers & encouragement...";
+          const q = query(collection(db, "prayers"), orderBy("createdAt", "desc"));
           const querySnapshot = await getDocs(q);
           
           prayerList.innerHTML = ''; 
@@ -738,9 +699,6 @@ search.addEventListener('input', () => {
               
               let deleteBtnHTML = '';
               
-              // Deletion Rule Logic:
-              // 1. If signed in, allow deletion only if prayer.ownerUid matches currentUser.uid
-              // 2. If NOT signed in, allow deletion only if post was anonymous (ownerUid is null) AND ownerToken matches local token
               if (currentUser) {
                   if (prayer.ownerUid && prayer.ownerUid === currentUser.uid) {
                       deleteBtnHTML = `<button class="delete-btn" onclick="window.deletePrayer('${prayerId}')">Delete</button>`;
@@ -762,11 +720,10 @@ search.addEventListener('input', () => {
           statusMsg.textContent = "";
       } catch (error) {
           console.error("Error loading prayers: ", error);
-          statusMsg.textContent = "Error loading prayers. Check console.";
+          statusMsg.textContent = "Error loading prayers.";
       }
   }
 
-  // Handle Prayer Request Submission
   prayerForm.addEventListener('submit', async (e) => {
       e.preventDefault();
       const textInput = document.getElementById('prayerText');
@@ -780,7 +737,7 @@ search.addEventListener('input', () => {
       
       if(text) {
           try {
-              statusMsg.textContent = "Submitting prayer/...";
+              statusMsg.textContent = "Submitting prayer...";
               
               await addDoc(collection(db, "prayers"), {
                   name: name,
@@ -794,7 +751,7 @@ search.addEventListener('input', () => {
               if (!currentUser) {
                   prayerNameInput.value = '';
               }
-              statusMsg.textContent = "Prayer/ submitted successfully!";
+              statusMsg.textContent = "Submitted successfully!";
               fetchPrayers();
           } catch (error) {
               alert("Error submitting prayer. Check console for details.");
@@ -804,7 +761,6 @@ search.addEventListener('input', () => {
       }
   });
 
-  // Delete Prayer Function
   window.deletePrayer = async function(prayerId) {
       if (confirm("Are you sure you want to delete this prayer request?")) {
           try {
