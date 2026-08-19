@@ -515,38 +515,38 @@
 
 <!-- General UI Interactions -->
 <script>
-function scrollToGames(){
+window.scrollToGames = function(){
     document.getElementById('gamesGrid').scrollIntoView({
         behavior:'smooth'
     });
-}
+};
 
-function openGame(url){
+window.openGame = function(url){
     document.getElementById('gameModal').style.display='flex';
     document.getElementById('gameFrame').src=url;
-}
+};
 
-function closeGame(){
+window.closeGame = function(){
     document.getElementById('gameModal').style.display='none';
     document.getElementById('gameFrame').src='';
-}
+};
 
-function openNewsModal(){
+window.openNewsModal = function(){
     document.getElementById('newsModal').style.display='flex';
-}
+};
 
-function closeNewsModal(){
+window.closeNewsModal = function(){
     document.getElementById('newsModal').style.display='none';
-}
+};
 
-function openAuthModal(){
+window.openAuthModal = function(){
     document.getElementById('authModal').style.display='flex';
-}
+};
 
-function closeAuthModal(){
+window.closeAuthModal = function(){
     document.getElementById('authModal').style.display='none';
     document.getElementById('authError').textContent = '';
-}
+};
 
 const search = document.getElementById('search');
 const cards = document.querySelectorAll('.game-card');
@@ -577,7 +577,8 @@ search.addEventListener('input', () => {
       addDoc, 
       deleteDoc, 
       doc, 
-      query 
+      query,
+      orderBy 
   } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js";
   import { 
       getAuth, 
@@ -739,7 +740,7 @@ search.addEventListener('input', () => {
   async function fetchPrayers() {
       try {
           statusMsg.textContent = "Loading prayers & Encouragement...";
-          const q = query(collection(db, "prayers"));
+          const q = query(collection(db, "prayers"), orderBy("createdAt", "desc"));
           const querySnapshot = await getDocs(q);
           
           prayerList.innerHTML = ''; 
