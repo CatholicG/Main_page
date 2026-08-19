@@ -503,9 +503,6 @@
             <span id="toggleAuthText">Don't have an account?</span> 
             <a href="#" id="toggleAuthLink" style="color: #00e5ff; text-decoration: underline;">Sign Up</a>
         </p>
-        <p style="margin-top: 10px; font-size: 0.85rem; color: #cbd5e1;">
-            <a href="#" id="forgotPasswordLink" style="color: #00e5ff; text-decoration: underline;">Forgot Password?</a>
-        </p>
     </div>
 </div>
 
@@ -585,8 +582,7 @@ search.addEventListener('input', () => {
       signInWithEmailAndPassword, 
       updateProfile, 
       signOut, 
-      onAuthStateChanged,
-      sendPasswordResetEmail
+      onAuthStateChanged 
   } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-auth.js";
 
   // 2. Firebase configuration
@@ -620,7 +616,6 @@ search.addEventListener('input', () => {
   const authSubmitBtn = document.getElementById('authSubmitBtn');
   const toggleAuthLink = document.getElementById('toggleAuthLink');
   const toggleAuthText = document.getElementById('toggleAuthText');
-  const forgotPasswordLink = document.getElementById('forgotPasswordLink');
   const authError = document.getElementById('authError');
   const authBtn = document.getElementById('authBtn');
   const userInfo = document.getElementById('userInfo');
@@ -649,7 +644,6 @@ search.addEventListener('input', () => {
           toggleAuthLink.textContent = "Sign In";
           authNickname.style.display = 'block';
           authNickname.required = true;
-          forgotPasswordLink.style.display = 'none';
       } else {
           authTitle.textContent = "Sign In";
           authSubmitBtn.textContent = "Sign In";
@@ -657,35 +651,12 @@ search.addEventListener('input', () => {
           toggleAuthLink.textContent = "Sign Up";
           authNickname.style.display = 'none';
           authNickname.required = false;
-          forgotPasswordLink.style.display = 'inline';
-      }
-  });
-
-  // Forgot Password Functionality
-  forgotPasswordLink.addEventListener('click', async (e) => {
-      e.preventDefault();
-      const email = authEmail.value.trim();
-
-      if (!email) {
-          authError.style.color = '#ef4444';
-          authError.textContent = "Please enter your email address first.";
-          return;
-      }
-
-      try {
-          await sendPasswordResetEmail(auth, email);
-          authError.style.color = '#10b981';
-          authError.textContent = "Password reset email sent! Check your inbox.";
-      } catch (error) {
-          authError.style.color = '#ef4444';
-          authError.textContent = error.message.replace("Firebase: ", "");
       }
   });
 
   // Handle Form Submission for Sign In / Sign Up
   authForm.addEventListener('submit', async (e) => {
       e.preventDefault();
-      authError.style.color = '#ef4444';
       authError.textContent = '';
       const email = authEmail.value;
       const password = authPassword.value;
@@ -707,7 +678,6 @@ search.addEventListener('input', () => {
           authNickname.value = '';
           window.closeAuthModal();
       } catch (error) {
-          authError.style.color = '#ef4444';
           authError.textContent = error.message.replace("Firebase: ", "");
       }
   });
