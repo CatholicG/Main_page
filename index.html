@@ -371,9 +371,6 @@
         z-index:5;
     }
     </style>
-    
- <link rel="canonical" href="https://GW1-9.github.io/Main_page/">
-    
 </head>
 <body>
 
@@ -409,7 +406,7 @@
         <div class="game-info">
             <h3>The Angelus</h3>
             <p>A prayer based on scripture and the Annunciation</p> 
-            <button class="play-btn" onclick="openGame('https://CatholicG.github.io/Angelus/')">PRAY</button>
+            <button class="play-btn" onclick="openGame('https://GMW1-9.github.io/Angelus/')">PRAY</button>
         </div>
     </div>
 </section>
@@ -420,8 +417,8 @@
         <p id="statusMsg" style="color: #00e5ff; font-size: 0.85rem; margin-bottom: 10px;"></p>
         
         <form class="prayer-form" id="prayerForm">
-            <input type="text" id="prayerName" placeholder="Your Nickname (Defaults to Anonymous)">
-            <textarea id="prayerText" placeholder="Share your Prayer Intention or Encouragement... " required></textarea>
+            <input type="text" id="prayerName" placeholder="Your Nickname or 'Anonymous'" required>
+            <textarea id="prayerText" placeholder="Share your Irayer Intention or Encouragement... " required></textarea>
             <button type="submit">Submit Prayer Request or Encouragement </button>
         </form>
         <div class="prayer-list" id="prayerList"></div>
@@ -521,6 +518,11 @@ function openAuthModal(){
     document.getElementById('authModal').style.display='flex';
 }
 
+function closeAuthModal(){
+    document.getElementById('authModal').style.display='none';
+    document.getElementById('authError').textContent = '';
+}
+
 const search = document.getElementById('search');
 const cards = document.querySelectorAll('.game-card');
 
@@ -539,7 +541,9 @@ search.addEventListener('input', () => {
 });
 </script>
 
+
 <script type="module">
+  // 1. Import necessary Firebase SDK functions
   import { initializeApp } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-app.js";
   import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-analytics.js";
   import { 
@@ -549,8 +553,7 @@ search.addEventListener('input', () => {
       addDoc, 
       deleteDoc, 
       doc, 
-      query,
-      orderBy 
+      query 
   } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js";
   import { 
       getAuth, 
@@ -561,21 +564,24 @@ search.addEventListener('input', () => {
       onAuthStateChanged 
   } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-auth.js";
 
+  // 2. Firebase configuration
   const firebaseConfig = {
-  apiKey: "AIzaSyC20s98-Gc6Zy_tkGSnHPWSRlVYgscrIBg",
-  authDomain: "gmw1-9.firebaseapp.com",
-  projectId: "gmw1-9",
-  storageBucket: "gmw1-9.firebasestorage.app",
-  messagingSenderId: "743221040883",
-  appId: "1:743221040883:web:2bf72b8004c1ddf0714986",
-  measurementId: "G-QQ3M6WTYH0"
-};
+      apiKey: "AIzaSyAx125psZK025ZRmZjT2qEWUrN-Lm-kXJI",
+      authDomain: "catholicg-prayer-web.firebaseapp.com",
+      projectId: "catholicg-prayer-web",
+      storageBucket: "catholicg-prayer-web.firebasestorage.app",
+      messagingSenderId: "85420889115",
+      appId: "1:85420889115:web:d2b2c8695b89a45936d4be",
+      measurementId: "G-YKTS9P56XW"
+  };
 
+  // 3. Initialize Firebase services once
   const app = initializeApp(firebaseConfig);
   const analytics = getAnalytics(app);
   const db = getFirestore(app);
   const auth = getAuth(app);
 
+  // 4. DOM Elements
   const prayerForm = document.getElementById('prayerForm');
   const prayerList = document.getElementById('prayerList');
   const statusMsg = document.getElementById('statusMsg');
@@ -604,11 +610,7 @@ search.addEventListener('input', () => {
       localStorage.setItem('prayer_user_token', userToken);
   }
 
-  window.closeAuthModal = function() {
-      document.getElementById('authModal').style.display = 'none';
-      authError.textContent = '';
-  };
-
+  // Toggle Authentication Mode (Sign In <-> Sign Up)
   toggleAuthLink.addEventListener('click', (e) => {
       e.preventDefault();
       isSignUpMode = !isSignUpMode;
@@ -631,6 +633,7 @@ search.addEventListener('input', () => {
       }
   });
 
+  // Handle Form Submission for Sign In / Sign Up
   authForm.addEventListener('submit', async (e) => {
       e.preventDefault();
       authError.textContent = '';
@@ -658,10 +661,12 @@ search.addEventListener('input', () => {
       }
   });
 
+  // Handle Sign Out
   logoutBtn.addEventListener('click', async () => {
       await signOut(auth);
   });
 
+  // Listen for Auth State Changes
   onAuthStateChanged(auth, (user) => {
       currentUser = user;
       if (user) {
@@ -679,10 +684,11 @@ search.addEventListener('input', () => {
       fetchPrayers();
   });
 
+  // Fetch Prayers
   async function fetchPrayers() {
       try {
-          statusMsg.textContent = "Loading prayers & encouragement...";
-          const q = query(collection(db, "prayers"), orderBy("createdAt", "desc"));
+          statusMsg.textContent = "Loading prayers & Encouragement...";
+          const q = query(collection(db, "prayers"));
           const querySnapshot = await getDocs(q);
           
           prayerList.innerHTML = ''; 
@@ -701,15 +707,8 @@ search.addEventListener('input', () => {
               prayerItem.className = 'prayer-item';
               
               let deleteBtnHTML = '';
-              
-              if (currentUser) {
-                  if (prayer.ownerUid && prayer.ownerUid === currentUser.uid) {
-                      deleteBtnHTML = `<button class="delete-btn" onclick="window.deletePrayer('${prayerId}')">Delete</button>`;
-                  }
-              } else {
-                  if (!prayer.ownerUid && prayer.ownerToken === userToken) {
-                      deleteBtnHTML = `<button class="delete-btn" onclick="window.deletePrayer('${prayerId}')">Delete</button>`;
-                  }
+              if ((currentUser && prayer.ownerUid === currentUser.uid) || (prayer.ownerToken === userToken)) {
+                  deleteBtnHTML = `<button class="delete-btn" onclick="window.deletePrayer('${prayerId}')">Delete</button>`;
               }
 
               prayerItem.innerHTML = `
@@ -723,22 +722,19 @@ search.addEventListener('input', () => {
           statusMsg.textContent = "";
       } catch (error) {
           console.error("Error loading prayers: ", error);
-          statusMsg.textContent = "Error loading prayers.";
+          statusMsg.textContent = "Error loading prayers. Check console.";
       }
   }
 
+  // Handle Prayer Request Submission
   prayerForm.addEventListener('submit', async (e) => {
       e.preventDefault();
       const textInput = document.getElementById('prayerText');
       
-      let name = prayerNameInput.value.trim();
-      if (!name) {
-          name = "Anonymous";
-      }
-      
+      const name = prayerNameInput.value.trim();
       const text = textInput.value.trim();
       
-      if(text) {
+      if(name && text) {
           try {
               statusMsg.textContent = "Submitting prayer...";
               
@@ -754,7 +750,7 @@ search.addEventListener('input', () => {
               if (!currentUser) {
                   prayerNameInput.value = '';
               }
-              statusMsg.textContent = "Submitted successfully!";
+              statusMsg.textContent = "Prayer submitted successfully!";
               fetchPrayers();
           } catch (error) {
               alert("Error submitting prayer. Check console for details.");
@@ -764,6 +760,7 @@ search.addEventListener('input', () => {
       }
   });
 
+  // Delete Prayer Function
   window.deletePrayer = async function(prayerId) {
       if (confirm("Are you sure you want to delete this prayer request?")) {
           try {
