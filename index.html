@@ -543,26 +543,27 @@ search.addEventListener('input', () => {
 
 <!-- Firebase Firestore & Authentication Logic -->
 <script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
-  import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc, query } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
-  import { 
-      getAuth, 
-      createUserWithEmailAndPassword, 
-      signInWithEmailAndPassword, 
-      signOut, 
-      onAuthStateChanged,
-      updateProfile 
-  } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
+// Import the functions you need from the SDKs you need
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-app.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-analytics.js";
+  // TODO: Add SDKs for Firebase products that you want to use
+  // https://firebase.google.com/docs/web/setup#available-libraries
 
+  // Your web app's Firebase configuration
+  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
   const firebaseConfig = {
-    apiKey: "AIzaSyCrmEhh4ZUWhl4MKB96bFjVu6bEFBuyAEI",
-    authDomain: "catholicweb4prayer.firebaseapp.com",
-    projectId: "catholicweb4prayer",
-    storageBucket: "catholicweb4prayer.firebasestorage.app",
-    messagingSenderId: "36453965935",
-    appId: "1:36453965935:web:e2e8055627f12e8c25793e80"
+    apiKey: "AIzaSyAx125psZK025ZRmZjT2qEWUrN-Lm-kXJI",
+    authDomain: "catholicg-prayer-web.firebaseapp.com",
+    projectId: "catholicg-prayer-web",
+    storageBucket: "catholicg-prayer-web.firebasestorage.app",
+    messagingSenderId: "85420889115",
+    appId: "1:85420889115:web:d2b2c8695b89a45936d4be",
+    measurementId: "G-YKTS9P56XW"
   };
 
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
   const app = initializeApp(firebaseConfig);
   const db = getFirestore(app);
   const auth = getAuth(app);
