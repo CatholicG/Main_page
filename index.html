@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/> 
-    <title>PrayerWeb by: CatholicG - Community Prayer & Encouragement Wall + Prayers to Pray</title>
+    <title>PrayerWeb by: GMW1:9 - Community Prayer & Encouragement Wall + Prayers to Pray</title>
     
     <meta name="description" content="Welcome to the Prayer web. Share live community prayer requests, and explore Catholic resources, but still new on the web." />
-    <meta name="keywords" content="Catholic prayer wall, Catholic web, prayer requests, Catholic resources, CatholicG, Prayer web, Encouragement Wall" />
-    <meta name="author" content="CatholicG" />
+    <meta name="keywords" content="Catholic prayer wall, Catholic web, prayer requests, Catholic resources, GMW1:9, Prayer web, Encouragement Wall" />
+    <meta name="author" content="GMW1:9" />
 
     <style>
     * {
@@ -117,16 +117,23 @@
         color: white;
     }
 
+    /* Fixed to display 3 columns per row */
     .games-grid {
         display:grid;
-        grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+        grid-template-columns:repeat(3, 1fr);
         gap:25px;
         padding:30px 40px 60px;
     }
 
+    @media (max-width: 900px) {
+        .games-grid {
+            grid-template-columns:repeat(auto-fit, minmax(260px, 1fr));
+        }
+    }
+
     .game-card {
         background:#111827;
-        border-radius:25px;
+        border-radius:10px;
         overflow:hidden;
         transition:.3s;
         cursor:pointer;
@@ -394,7 +401,7 @@
     <div class="hero-content">
         <p>Welcome To...</p>
         <h2>PrayerWeb</h2>
-        <h4>by: CatholicG</h4>
+        <h4>by: GMW1:9</h4>
         <button onclick="scrollToGames()">START BROWSING</button>
         <button onclick="openNewsModal()" class="outline-btn">WHAT'S NEW</button>
     </div>
@@ -406,7 +413,15 @@
         <div class="game-info">
             <h3>The Angelus</h3>
             <p>A prayer based on scripture and the Annunciation</p> 
-            <button class="play-btn" onclick="openGame('https://CatholicG.github.io/Angelus/')">PRAY</button>
+            <button class="play-btn" onclick="openGame('https://GMW1-9.github.io/Angelus/')">PRAY</button>
+        </div>
+    </div>
+
+    <div class="game-card" data-name="Our Father">
+        <div class="game-info">
+            <h3>Our Father</h3>
+            <p> The prayer Jesus taught his disciples! </p> 
+            <button class="play-btn" onclick="openGame('https://gmw1-9.github.io/Our-Father/')">PRAY</button>
         </div>
     </div>
 </section>
@@ -439,10 +454,17 @@
         <h2>What's New</h2>
         
         <div class="news-item">
-            <h4>Launched on Google search</h4>
+            <h4>Our Father</h4>
             <span>August 2026</span>
-            <p>Now comes up on search results!</p>
+            <p>The prayer Jesus taught his disciples!</p>
         </div>
+        
+        <div class="news-item">
+            <h4>Accounts Able NOW</h4>
+            <span>August 2026</span>
+            <p> sign up and get on to any device for sending your prayers the default nickname </p>
+        </div>
+        
         <div class="news-item">
             <h4>Self-Deletion Feature Added</h4>
             <span>July 2026</span>
@@ -477,19 +499,18 @@
             <button type="submit" id="authSubmitBtn" style="padding: 12px; border: none; border-radius: 12px; background: #00e5ff; color: black; font-weight: bold; cursor: pointer; font-family: 'Orbitron', sans-serif;">Sign In</button>
         </form>
 
-        <p id="forgotPasswordContainer" style="margin-top: 15px; font-size: 0.85rem;">
-            <a href="#" id="forgotPasswordBtn" style="color: #a5b4fc; text-decoration: underline;">Forgot Password?</a>
-        </p>
-
-        <p style="margin-top: 10px; font-size: 0.85rem; color: #cbd5e1;">
+        <p style="margin-top: 20px; font-size: 0.85rem; color: #cbd5e1;">
             <span id="toggleAuthText">Don't have an account?</span> 
             <a href="#" id="toggleAuthLink" style="color: #00e5ff; text-decoration: underline;">Sign Up</a>
+        </p>
+        <p style="margin-top: 10px; font-size: 0.85rem; color: #cbd5e1;">
+            <a href="#" id="forgotPasswordLink" style="color: #00e5ff; text-decoration: underline;">Forgot Password?</a>
         </p>
     </div>
 </div>
 
 <footer>
-    © 2026 CatholicG
+    © 2026 GMW1:9
 </footer>
 
 <!-- General UI Interactions -->
@@ -545,7 +566,6 @@ search.addEventListener('input', () => {
 });
 </script>
 
-
 <script type="module">
   // 1. Import necessary Firebase SDK functions
   import { initializeApp } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-app.js";
@@ -563,10 +583,10 @@ search.addEventListener('input', () => {
       getAuth, 
       createUserWithEmailAndPassword, 
       signInWithEmailAndPassword, 
-      sendPasswordResetEmail,
       updateProfile, 
       signOut, 
-      onAuthStateChanged 
+      onAuthStateChanged,
+      sendPasswordResetEmail
   } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-auth.js";
 
   // 2. Firebase configuration
@@ -600,8 +620,7 @@ search.addEventListener('input', () => {
   const authSubmitBtn = document.getElementById('authSubmitBtn');
   const toggleAuthLink = document.getElementById('toggleAuthLink');
   const toggleAuthText = document.getElementById('toggleAuthText');
-  const forgotPasswordBtn = document.getElementById('forgotPasswordBtn');
-  const forgotPasswordContainer = document.getElementById('forgotPasswordContainer');
+  const forgotPasswordLink = document.getElementById('forgotPasswordLink');
   const authError = document.getElementById('authError');
   const authBtn = document.getElementById('authBtn');
   const userInfo = document.getElementById('userInfo');
@@ -630,7 +649,7 @@ search.addEventListener('input', () => {
           toggleAuthLink.textContent = "Sign In";
           authNickname.style.display = 'block';
           authNickname.required = true;
-          forgotPasswordContainer.style.display = 'none';
+          forgotPasswordLink.style.display = 'none';
       } else {
           authTitle.textContent = "Sign In";
           authSubmitBtn.textContent = "Sign In";
@@ -638,26 +657,25 @@ search.addEventListener('input', () => {
           toggleAuthLink.textContent = "Sign Up";
           authNickname.style.display = 'none';
           authNickname.required = false;
-          forgotPasswordContainer.style.display = 'block';
+          forgotPasswordLink.style.display = 'inline';
       }
   });
 
-  // Handle Forgot Password Click
-  forgotPasswordBtn.addEventListener('click', async (e) => {
+  // Forgot Password Functionality
+  forgotPasswordLink.addEventListener('click', async (e) => {
       e.preventDefault();
-      authError.textContent = '';
       const email = authEmail.value.trim();
 
       if (!email) {
           authError.style.color = '#ef4444';
-          authError.textContent = 'Please enter your email address above to reset your password.';
+          authError.textContent = "Please enter your email address first.";
           return;
       }
 
       try {
           await sendPasswordResetEmail(auth, email);
-          authError.style.color = '#00e5ff';
-          authError.textContent = 'Password reset email sent! Check your inbox.';
+          authError.style.color = '#10b981';
+          authError.textContent = "Password reset email sent! Check your inbox.";
       } catch (error) {
           authError.style.color = '#ef4444';
           authError.textContent = error.message.replace("Firebase: ", "");
@@ -689,6 +707,7 @@ search.addEventListener('input', () => {
           authNickname.value = '';
           window.closeAuthModal();
       } catch (error) {
+          authError.style.color = '#ef4444';
           authError.textContent = error.message.replace("Firebase: ", "");
       }
   });
