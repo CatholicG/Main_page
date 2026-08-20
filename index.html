@@ -6,7 +6,7 @@
     <title>PrayerWeb by: GMW1:9 - Community Prayer & Encouragement Wall + Prayers to Pray</title>
     
     <meta name="description" content="Welcome to the Prayer web. Share live community prayer requests, and explore Catholic resources, but still new on the web." />
-    <meta name="keywords" content="Catholic prayer wall, Catholic web, prayer requests, Catholic resources, GMW1:9, Prayer web, Encouragement Wall, GMW1:9 encoragement wall" />
+    <meta name="keywords" content="Catholic prayer wall, Catholic web, prayer requests, Catholic resources, GMW1:9, Prayer web, Encouragement Wall" />
     <meta name="author" content="GMW1:9" />
 
     <style>
@@ -711,9 +711,36 @@ search.addEventListener('input', () => {
           authEmail.value = '';
           authPassword.value = '';
           authNickname.value = '';
-          closeAuthModal(); // use regular global scope function due to previous closure fixes
+          closeAuthModal(); 
       } catch (error) {
           authError.textContent = error.message.replace("Firebase: ", "");
+      }
+  });
+
+  // Handle Sign Out
+  logoutBtn.addEventListener('click', async (e) => {
+      e.preventDefault(); // Prevents any weird page jumps
+      try {
+          // 1. Give visual feedback that it's working
+          logoutBtn.textContent = 'Signing out...'; 
+          
+          // 2. Tell Firebase to log the user out
+          await signOut(auth);
+          
+          // 3. Force the UI to update immediately
+          document.getElementById('authBtn').style.display = 'block';
+          document.getElementById('userInfo').style.display = 'none';
+          document.getElementById('userDisplayName').textContent = '';
+          document.getElementById('prayerName').value = '';
+          
+          // 4. Reset the button text for next time
+          logoutBtn.textContent = 'Sign Out'; 
+          
+      } catch (error) {
+          // If something goes wrong, this will pop up an alert box telling us why
+          console.error("Logout Error: ", error);
+          alert("Oops! Couldn't sign out: " + error.message);
+          logoutBtn.textContent = 'Sign Out';
       }
   });
 
