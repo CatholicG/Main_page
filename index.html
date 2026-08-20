@@ -6,7 +6,7 @@
     <title>PrayerWeb by: GMW1:9 - Community Prayer & Encouragement Wall + Prayers to Pray</title>
     
     <meta name="description" content="Welcome to the Prayer web. Share live community prayer requests, and explore Catholic resources, but still new on the web." />
-    <meta name="keywords" content="Catholic prayer wall, Catholic web, prayer requests, Catholic resources, GMW1:9, Prayer web, Encouragement Wall" />
+    <meta name="keywords" content="Catholic prayer wall, Catholic web, prayer requests, Catholic resources, GMW1:9, Prayer web, Encouragement Wall, GMW1:9 encoragement wall" />
     <meta name="author" content="GMW1:9" />
 
     <style>
@@ -117,7 +117,6 @@
         color: white;
     }
 
-    /* Fixed to display 3 columns per row */
     .games-grid {
         display:grid;
         grid-template-columns:repeat(3, 1fr);
@@ -494,6 +493,9 @@
             <input type="email" id="authEmail" placeholder="Email Address" required style="width: 100%; padding: 12px; border-radius: 12px; background: #1f2937; color: white; border: 1px solid #374151; font-family: 'Orbitron', sans-serif;">
             <input type="password" id="authPassword" placeholder="Password (min 6 chars)" required style="width: 100%; padding: 12px; border-radius: 12px; background: #1f2937; color: white; border: 1px solid #374151; font-family: 'Orbitron', sans-serif;">
             
+            <!-- Forgot Password Link -->
+            <a href="#" id="forgotPasswordLink" style="font-size: 0.85rem; color: #00e5ff; text-align: right; text-decoration: underline;">Forgot Password?</a>
+
             <p id="authError" style="color: #ef4444; font-size: 0.85rem; margin: 0;"></p>
 
             <button type="submit" id="authSubmitBtn" style="padding: 12px; border: none; border-radius: 12px; background: #00e5ff; color: black; font-weight: bold; cursor: pointer; font-family: 'Orbitron', sans-serif;">Sign In</button>
@@ -564,7 +566,7 @@ search.addEventListener('input', () => {
 </script>
 
 <script type="module">
-  // 1. Import necessary Firebase SDK functions
+  // 1. Import necessary Firebase SDK functions including sendPasswordResetEmail
   import { initializeApp } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-app.js";
   import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-analytics.js";
   import { 
@@ -582,7 +584,8 @@ search.addEventListener('input', () => {
       signInWithEmailAndPassword, 
       updateProfile, 
       signOut, 
-      onAuthStateChanged 
+      onAuthStateChanged,
+      sendPasswordResetEmail
   } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-auth.js";
 
   // 2. Firebase configuration
@@ -597,9 +600,8 @@ search.addEventListener('input', () => {
 };
 
   // 3. Initialize Firebase services once
- // Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
   const db = getFirestore(app);
   const auth = getAuth(app);
 
@@ -618,6 +620,7 @@ const analytics = getAnalytics(app);
   const toggleAuthLink = document.getElementById('toggleAuthLink');
   const toggleAuthText = document.getElementById('toggleAuthText');
   const authError = document.getElementById('authError');
+  const forgotPasswordLink = document.getElementById('forgotPasswordLink');
   const authBtn = document.getElementById('authBtn');
   const userInfo = document.getElementById('userInfo');
   const userDisplayName = document.getElementById('userDisplayName');
@@ -637,6 +640,7 @@ const analytics = getAnalytics(app);
       e.preventDefault();
       isSignUpMode = !isSignUpMode;
       authError.textContent = '';
+      authError.style.color = '#ef4444'; // reset color to red in case it was green
       
       if (isSignUpMode) {
           authTitle.textContent = "Sign Up";
@@ -645,6 +649,7 @@ const analytics = getAnalytics(app);
           toggleAuthLink.textContent = "Sign In";
           authNickname.style.display = 'block';
           authNickname.required = true;
+          forgotPasswordLink.style.display = 'none'; // Hide forgot password on sign up
       } else {
           authTitle.textContent = "Sign In";
           authSubmitBtn.textContent = "Sign In";
@@ -652,12 +657,41 @@ const analytics = getAnalytics(app);
           toggleAuthLink.textContent = "Sign Up";
           authNickname.style.display = 'none';
           authNickname.required = false;
+          forgotPasswordLink.style.display = 'block'; // Show forgot password on sign in
+      }
+  });
+
+  // Handle Forgot Password Click
+  forgotPasswordLink.addEventListener('click', async (e) => {
+      e.preventDefault();
+      authError.textContent = '';
+      
+      const email = authEmail.value.trim();
+      
+      if (!email) {
+          authError.style.color = '#ef4444'; // red
+          authError.textContent = "Please enter your email address above to reset your password.";
+          return;
+      }
+
+      try {
+          authError.style.color = '#00e5ff'; // cyan for processing
+          authError.textContent = "Sending password reset email...";
+          
+          await sendPasswordResetEmail(auth, email);
+          
+          authError.style.color = '#10b981'; // green for success
+          authError.textContent = "Password reset email sent! Please check your inbox.";
+      } catch (error) {
+          authError.style.color = '#ef4444'; // red for error
+          authError.textContent = error.message.replace("Firebase: ", "");
       }
   });
 
   // Handle Form Submission for Sign In / Sign Up
   authForm.addEventListener('submit', async (e) => {
       e.preventDefault();
+      authError.style.color = '#ef4444'; // Reset error text color to red
       authError.textContent = '';
       const email = authEmail.value;
       const password = authPassword.value;
@@ -677,15 +711,10 @@ const analytics = getAnalytics(app);
           authEmail.value = '';
           authPassword.value = '';
           authNickname.value = '';
-          window.closeAuthModal();
+          closeAuthModal(); // use regular global scope function due to previous closure fixes
       } catch (error) {
           authError.textContent = error.message.replace("Firebase: ", "");
       }
-  });
-
-  // Handle Sign Out
-  logoutBtn.addEventListener('click', async () => {
-      await signOut(auth);
   });
 
   // Listen for Auth State Changes
