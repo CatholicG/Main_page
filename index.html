@@ -677,11 +677,11 @@ search.addEventListener('input', () => {
       try {
           authError.style.color = '#00e5ff'; // cyan for processing
           authError.textContent = "Sending password reset email...";
-          
           await sendPasswordResetEmail(auth, email);
           
           authError.style.color = '#10b981'; // green for success
           authError.textContent = "Password reset email sent! Please check your inbox.";
+          authError.textContent = "Please check spam.";
       } catch (error) {
           authError.style.color = '#ef4444'; // red for error
           authError.textContent = error.message.replace("Firebase: ", "");
